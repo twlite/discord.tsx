@@ -1,6 +1,6 @@
 {
   "name": "discord.js-jsx-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create Discord.js components in JSX, inspired by Harmony TSX.",
   "main": "out/index.js",
   "types": "out/index.d.ts",

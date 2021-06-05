@@ -32,7 +32,7 @@ import {
 } from "discord.js-jsx-components"; // required
 
 client.on("message", (message) => {
-    if (message.content === "!button") {
+    if (message.content === "=btn") {
         const componentData = (
             <>
                 <MessageActionRow>
@@ -64,7 +64,7 @@ import {
 } from "discord.js-jsx-components"; // required
 
 client.on("message", (message) => {
-    if (message.content === "!button") {
+    if (message.content === "=btn") {
         const componentData = (
             <>
                 <MessageActionRow>
