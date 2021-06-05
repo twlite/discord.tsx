@@ -1,0 +1,29 @@
+{
+  "name": "discord.js-jsx-components",
+  "version": "1.0.0",
+  "description": "Create Discord.js components in JSX, inspired by Harmony TSX.",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Snowflake107/discord.js-jsx-components.git"
+  },
+  "keywords": [
+    "tsx-discord.js",
+    "jsx",
+    "components",
+    "discord-buttons",
+    "react"
+  ],
+  "author": "Snowflake107",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Snowflake107/discord.js-jsx-components/issues"
+  },
+  "homepage": "https://github.com/Snowflake107/discord.js-jsx-components#readme",
+  "devDependencies": {
+    "@types/node": "^15.12.1",
+    "discord.js": "discordjs/discord.js#master",
+    "typescript": "^4.3.2"
+  }
+}

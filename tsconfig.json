@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "./out",
+        "strict": true,
+        "strictNullChecks": true,
+        "jsxFactory": "DiscordComponents.createComponent",
+        "jsx": "react",
+        "jsxFragmentFactory": "fragment"
+    },
+    "include": [
+        "index.ts"
+    ]
+}
