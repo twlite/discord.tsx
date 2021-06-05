@@ -1,4 +1,4 @@
-import { MessageActionRow as DiscordMessageActionRow, MessageButton as DiscordMessageButton, MessageButtonOptions } from "discord.js";
+import { MessageActionRow as DiscordMessageActionRow, MessageActionRowOptions, MessageButton as DiscordMessageButton, MessageButtonOptions } from "discord.js";
 
 export type ElementType = "Root" | "MessageActionRow" | "MessageButton";
 export type Component<T = any> = (props?: T, children?: any) => MessageElement<T>;
@@ -22,15 +22,15 @@ export function MessageActionRow(props: {}, children: MessageElement[]) {
         type: "MessageActionRow",
         props,
         children
-    } as MessageElement;
+    } as MessageElement<MessageActionRowOptions>;
 }
 
-export function MessageButton(props: MessageButtonOptions, _children: undefined): MessageElement<MessageButtonOptions> {
+export function MessageButton(props: MessageButtonOptions, _children: undefined) {
     return {
         type: "MessageButton",
         props,
         children: undefined
-    };
+    } as MessageElement<MessageButtonOptions>;
 }
 
 export function fragment(props: null, components: MessageElement[]): DiscordMessageActionRow[] {
