@@ -1,6 +1,14 @@
-import { MessageActionRow as DiscordMessageActionRow, MessageActionRowOptions, MessageButton as DiscordMessageButton, MessageButtonOptions } from "discord.js";
+import {
+    MessageActionRow as DiscordMessageActionRow,
+    MessageActionRowOptions,
+    MessageButton as DiscordMessageButton,
+    MessageSelectMenu as DiscordMessageSelectMenu,
+    MessageButtonOptions,
+    MessageSelectOptionData,
+    MessageSelectMenuOptions
+} from "discord.js";
 
-export type ElementType = "Root" | "MessageActionRow" | "MessageButton";
+export type ElementType = "Root" | "MessageActionRow" | "MessageButton" | "MessageSelectMenu" | "MessageSelectOption";
 export type Component<T = any> = (props?: T, children?: any) => MessageElement<T>;
 
 export interface MessageElement<T = any> {
@@ -10,10 +18,65 @@ export interface MessageElement<T = any> {
 }
 
 export class DiscordComponents {
-    static createComponent<T = any>(component: Component<T>, props: T, ...children: Array<MessageElement<MessageButtonOptions>>): MessageElement<T> {
+    static createComponent<T = any>(component: Component<T>, props: T, ...children: Array<MessageElement<MessageButtonOptions|MessageSelectOptionData>>): MessageElement<T> {
         if (component === undefined) return void 0 as any;
         const element = component(props, children);
         return element;
+    }
+
+    static fragment(props: null, components: MessageElement[]): DiscordMessageActionRow[] {
+        if (props !== null) throw new TypeError("Root fragments may not have props");
+        const data: DiscordMessageActionRow[] = [];
+
+        components.forEach((component) => {
+            if (typeof component !== "object") return;
+            if (component.type !== "MessageActionRow") throw new Error("Parent component must be MessageActionRow");
+
+            const actionRow = new DiscordMessageActionRow();
+
+            component.children?.forEach((child: MessageElement<MessageButtonOptions|MessageSelectMenuOptions>) => {                
+                switch(child.type) {
+                    case "MessageButton": {
+                        const buttonComponent = new DiscordMessageButton();
+                        const prop = child.props as MessageButtonOptions;
+
+                        if (prop.customID) buttonComponent.setCustomID(prop.customID);
+                        if (prop.disabled) buttonComponent.setDisabled(prop.disabled);
+                        if (prop.emoji) buttonComponent.setEmoji(prop.emoji);
+                        if (prop.label) buttonComponent.setLabel(prop.label);
+                        if (prop.style) buttonComponent.setStyle(prop.style);
+                        if (prop.url) buttonComponent.setURL(prop.url);
+
+                        actionRow.addComponents(buttonComponent);
+                    }
+                    break;
+                    case "MessageSelectMenu": {
+                        const selectComponent = new DiscordMessageSelectMenu();
+                        const prop = child.props as MessageSelectMenuOptions;
+
+                        if (prop.customID) selectComponent.setCustomID(prop.customID);
+                        if (prop.disabled) selectComponent.setDisabled(prop.disabled);
+                        if (prop.maxValues) selectComponent.setMaxValues(prop.maxValues);
+                        if (prop.minValues) selectComponent.setMinValues(prop.minValues);
+                        if (prop.placeholder) selectComponent.setPlaceholder(prop.placeholder);
+
+                        // add options
+                        child.children?.forEach((option: MessageElement<MessageSelectOptionData>) => {
+                            selectComponent.addOptions(option.props);
+                        });
+
+                        actionRow.addComponents(selectComponent);
+                    }
+                    break;
+                    default:
+                        throw new Error(`Invalid child component type "${child.type}"!`);
+                }
+            });
+
+            data.push(actionRow);
+        });
+
+        return data;
     }
 }
 
@@ -33,35 +96,18 @@ export function MessageButton(props: MessageButtonOptions, _children: undefined)
     } as MessageElement<MessageButtonOptions>;
 }
 
-export function fragment(props: null, components: MessageElement[]): DiscordMessageActionRow[] {
-    if (props !== null) throw new TypeError("Root fragments may not have props");
-    const data: DiscordMessageActionRow[] = [];
+export function MessageSelectMenu(props: MessageSelectMenuOptions, children: MessageElement[]) {
+    return {
+        type: "MessageSelectMenu",
+        props,
+        children
+    } as MessageElement<MessageSelectMenuOptions>;
+}
 
-    components.forEach((component) => {
-        if (typeof component !== "object") return;
-        if (component.type !== "MessageActionRow") throw new Error("Parent component must be MessageActionRow");
-
-        const actionRow = new DiscordMessageActionRow();
-
-        component.children?.forEach((child: MessageElement<MessageButtonOptions>) => {
-            if (child.type !== "MessageButton") throw new TypeError(`Invalid children type ${child.type}!`);
-            const buttonComponent = new DiscordMessageButton();
-
-            if (child.props.customID) buttonComponent.setCustomID(child.props.customID);
-            if (child.props.disabled) buttonComponent.setDisabled(child.props.disabled);
-            if (child.props.emoji)
-                buttonComponent.setEmoji(
-                    !child.props.emoji.id ? child.props.emoji.name! : `<${child.props.emoji.animated ? "a" : ""}:${child.props.emoji.name}:${child.props.emoji.id}>`
-                );
-            if (child.props.label) buttonComponent.setLabel(child.props.label);
-            if (child.props.style) buttonComponent.setStyle(child.props.style);
-            if (child.props.url) buttonComponent.setURL(child.props.url);
-
-            actionRow.addComponents(buttonComponent);
-        });
-
-        data.push(actionRow);
-    });
-
-    return data;
+export function MessageSelectOption(props: MessageSelectOptionData, _children: undefined) {
+    return {
+        type: "MessageSelectOption",
+        props,
+        children: undefined
+    } as MessageElement<MessageSelectOptionData>;
 }

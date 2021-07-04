@@ -8,7 +8,7 @@
         "strictNullChecks": true,
         "jsxFactory": "DiscordComponents.createComponent",
         "jsx": "react",
-        "jsxFragmentFactory": "fragment"
+        "jsxFragmentFactory": "DiscordComponents.fragment"
     },
     "include": [
         "index.ts"
