@@ -1,6 +1,6 @@
 {
   "name": "discord.tsx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create Discord.js components in JSX",
   "main": "out/index.js",
   "types": "out/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Snowflake107/discord.js-jsx-components.git"
+    "url": "git+https://github.com/DevSnowflake/discord.tsx.git"
   },
   "keywords": [
     "tsx-discord.js",
@@ -23,9 +23,9 @@
   "author": "Snowflake107",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Snowflake107/discord.js-jsx-components/issues"
+    "url": "https://github.com/DevSnowflake/discord.tsx/issues"
   },
-  "homepage": "https://github.com/Snowflake107/discord.js-jsx-components#readme",
+  "homepage": "https://github.com/DevSnowflake/discord.tsx#readme",
   "devDependencies": {
     "@types/node": "^16.0.0",
     "discord.js": "^13.0.0-dev.610b0b4.1625357028",
