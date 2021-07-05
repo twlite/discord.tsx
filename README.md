@@ -2,8 +2,6 @@
 
 Create Discord.js components in JSX.
 
-> Only for TypeScript users atm :D
-
 # Setup
 
 ## Install discord.js master
@@ -20,6 +18,15 @@ $ npm i discord.js@dev
 "jsxFragmentFactory": "DiscordComponents.fragment"
 ```
 
+# Components Available
+
+- MessageButton
+- MessageSelectMenu
+- MessageEmbed
+
+## Root Fragment Data
+Root fragment: `<>...</>` returns `{ embeds: MessageEmbed[], components: MessageActionRow[] }`.
+
 # Example
 
 ## Single Row
@@ -29,31 +36,23 @@ import {
   DiscordComponents,
   MessageActionRow,
   MessageButton,
-} from "discord.tsx"; // required
+} from "discord.tsx";
 
 client.on("messageCreate", (message) => {
   if (message.content === "=btn") {
     const componentData = (
       <>
         <MessageActionRow>
-          <MessageButton style="PRIMARY" label="Primary" customID="primary" />
-          <MessageButton
-            style="SECONDARY"
-            label="Secondary"
-            customID="secondary"
-          />
-          <MessageButton style="DANGER" label="Danger" customID="danger" />
-          <MessageButton style="SUCCESS" label="Success" customID="success" />
-          <MessageButton
-            style="LINK"
-            label="Link"
-            url="https://discord.js.org"
-          />
+          <MessageButton style="PRIMARY" label="Primary" customId="primary" />
+          <MessageButton style="SECONDARY" label="Secondary" customId="secondary" />
+          <MessageButton style="DANGER" label="Danger" customId="danger" />
+          <MessageButton style="SUCCESS" label="Success" customId="success" />
+          <MessageButton style="LINK" label="Link" url="https://discord.js.org" />
         </MessageActionRow>
       </>
     );
 
-    return message.channel.send({ content: "Buttons 🖱", components: componentData });
+    return message.channel.send({ ...componentData, content: "Buttons 🖱" });
   }
 });
 ```
@@ -69,54 +68,30 @@ import {
   DiscordComponents,
   MessageActionRow,
   MessageButton,
-} from "discord.tsx"; // required
+} from "discord.tsx";
 
 client.on("messageCreate", (message) => {
   if (message.content === "=btn") {
     const componentData = (
       <>
         <MessageActionRow>
-          <MessageButton style="PRIMARY" label="Primary" customID="primary" />
-          <MessageButton
-            style="SECONDARY"
-            label="Secondary"
-            customID="secondary"
-          />
-          <MessageButton style="DANGER" label="Danger" customID="danger" />
-          <MessageButton style="SUCCESS" label="Success" customID="success" />
-          <MessageButton
-            style="LINK"
-            label="Link"
-            url="https://discord.js.org"
-          />
+          <MessageButton style="PRIMARY" label="Primary" customId="primary" />
+          <MessageButton style="SECONDARY" label="Secondary" customId="secondary" />
+          <MessageButton style="DANGER" label="Danger" customId="danger" />
+          <MessageButton style="SUCCESS" label="Success" customId="success" />
+          <MessageButton style="LINK" label="Link" url="https://discord.js.org" />
         </MessageActionRow>
         <MessageActionRow>
-          <MessageButton
-            style="PRIMARY"
-            label="Primary 2"
-            customID="primary2"
-          />
-          <MessageButton
-            style="SECONDARY"
-            label="Secondary 2"
-            customID="secondary2"
-          />
-          <MessageButton style="DANGER" label="Danger 2" customID="danger2" />
-          <MessageButton
-            style="SUCCESS"
-            label="Success 2"
-            customID="success2"
-          />
-          <MessageButton
-            style="LINK"
-            label="Link 2"
-            url="https://discord.js.org"
-          />
+          <MessageButton style="PRIMARY" label="Primary 2" customId="primary2" />
+          <MessageButton style="SECONDARY" label="Secondary 2" customId="secondary2" />
+          <MessageButton style="DANGER" label="Danger 2" customId="danger2" />
+          <MessageButton style="SUCCESS" label="Success 2" customId="success2" />
+          <MessageButton style="LINK" label="Link 2" url="https://discord.js.org" />
         </MessageActionRow>
       </>
     );
 
-    return message.channel.send({ content: "Buttons 🖱" components: componentData });
+    return message.channel.send({ ...componentData, content: "Buttons 🖱" });
   }
 });
 ```
@@ -133,7 +108,7 @@ import {
     MessageActionRow,
     MessageSelectMenu,
     MessageSelectOption
-} from "discord.tsx"; // required
+} from "discord.tsx";
 
 client.on("messageCreate", (message) => {
     if (message.content === "=select") {
@@ -149,10 +124,49 @@ client.on("messageCreate", (message) => {
             </>
         );
 
-        return message.channel.send({ content: "Select It", components: componentData });
+        return message.channel.send({ ...componentData, content: "Select It" });
     }
 });
 ```
 
 ### Preview
 ![](https://i.imgur.com/EmeGYYy.png)
+
+## Message Embed
+
+```tsx
+import {
+    DiscordComponents,
+    MessageEmbed,
+    MessageEmbedAuthor,
+    MessageEmbedFields,
+    MessageEmbedField,
+    MessageEmbedFooter,
+    MessageEmbedImage,
+    MessageEmbedThumbnail
+} from "discord.tsx";
+
+client.on("messageCreate", (message) => {
+    if (message.content === "=embed") {
+        const componentData = (
+            <>
+                <MessageEmbed color="RANDOM" timestamp={Date.now()} description="Hello World" url="https://github.com" title="Title">
+                    <MessageEmbedAuthor name="Author" iconURL="https://cdn.discordapp.com/emojis/828572926525177887.png?v=1" url="https://discord.com" />
+                    <MessageEmbedFields>
+                        <MessageEmbedField name="Hello" value="world" />
+                        <MessageEmbedField name="Goodbye" value="world" inline />
+                    </MessageEmbedFields>
+                    <MessageEmbedThumbnail url="https://cdn.discordapp.com/emojis/828572926525177887.png?v=1" />
+                    <MessageEmbedImage url="https://cdn.discordapp.com/emojis/828572926525177887.png?v=1" />
+                    <MessageEmbedFooter text="Footer" iconURL="https://cdn.discordapp.com/emojis/828572926525177887.png?v=1" />
+                </MessageEmbed>
+            </>
+        );
+
+        return message.channel.send(componentData);
+    }
+});
+```
+
+### Preview
+![](https://i.imgur.com/eaqub2x.png)

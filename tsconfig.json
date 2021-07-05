@@ -11,6 +11,6 @@
         "jsxFragmentFactory": "DiscordComponents.fragment"
     },
     "include": [
-        "index.ts"
+        "src/**.ts"
     ]
 }
