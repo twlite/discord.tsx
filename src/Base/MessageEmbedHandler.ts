@@ -14,18 +14,32 @@ export default function handleData(component: MessageElement) {
     component.children?.forEach((child: MessageElement) => {
         switch (child.type) {
             case "MessageEmbedFields": {
-                const fields = child.children as MessageElement<EmbedFieldData>[];
-                embed.addFields(fields.filter(i => i.type === "MessageEmbedField").map(m => m.props));
+                const fields = child.children as MessageElement<EmbedFieldData>[] | MessageElement<EmbedFieldData>[][];
+                const applyFields = (fieldSet: MessageElement<EmbedFieldData>[] | MessageElement<EmbedFieldData>[][]): void => {
+                    for (const field of fieldSet) {
+                        if (Array.isArray(field)) return applyFields(field);
+                        if (field.type === "MessageEmbedField") void embed.addField(field.props.name, field.props.value, field.props.inline);
+                    }
+                }
+
+                applyFields(fields);
             }
             break;
             case "MessageEmbedAuthor": {
                 const data = child.props as MessageEmbedAuthor;
-                embed.setAuthor(data.name!, data.iconURL, data.url);
+                embed.setAuthor({
+                    name: data.name,
+                    iconURL: data.iconURL,
+                    url: data.url
+                })
             }
             break;
             case "MessageEmbedFooter": {
                 const data = child.props as MessageEmbedFooter;
-                embed.setFooter(data.text!, data.iconURL);
+                embed.setFooter({
+                    text: data.text,
+                    iconURL: data.iconURL
+                });
             }
             break;
             case "MessageEmbedImage": {

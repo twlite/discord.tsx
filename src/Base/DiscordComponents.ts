@@ -19,6 +19,11 @@ export class DiscordComponents {
     }
 
     static fragment(props: null, components: MessageElement[]) {
+        process.emitWarning("DiscordComponents.fragment is deprecated, use DiscordComponents.Fragment instead!");
+        return DiscordComponents.Fragment(props, components);
+    }
+
+    static Fragment(props: null, components: MessageElement[]) {
         if (props !== null) throw new TypeError("Root fragments may not have props");
         const actionRowData: DiscordMessageActionRow[] = [];
         const embedData: MessageEmbed[] = [];

@@ -1,4 +1,4 @@
-import {
+import type {
     ColorResolvable,
     MessageEmbedAuthor,
     MessageEmbedFooter,
@@ -6,7 +6,9 @@ import {
     MessageEmbedImage,
     MessageEmbedThumbnail,
     MessageButtonOptions,
-    MessageSelectOptionData
+    MessageSelectOptionData,
+    LinkButtonOptions,
+    MessageSelectMenuOptions
 } from "discord.js";
 
 export type ComponentCreateTypes = 
@@ -47,3 +49,5 @@ export interface EmbedProps {
     title?: string;
     url?: string;
 }
+
+export type ChildrenType = MessageElement<MessageButtonOptions | LinkButtonOptions | MessageSelectMenuOptions> | MessageElement;

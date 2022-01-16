@@ -4,18 +4,30 @@ Create Discord.js components in JSX.
 
 # Setup
 
-## Install discord.js master
+## Install discord.js
 
 ```sh
-$ npm i discord.js@dev
+$ npm i discord.js
 ```
 
-## Add these in your **`tsconfig.json`#compilerOptions**
+# Env Setup
+
+## TypeScript
+### Add these in your **`tsconfig.json`#compilerOptions**
 
 ```json
 "jsxFactory": "DiscordComponents.createComponent",
 "jsx": "react",
-"jsxFragmentFactory": "DiscordComponents.fragment"
+"jsxFragmentFactory": "DiscordComponents.Fragment"
+```
+
+## Babel
+
+Specify pragma for custom jsx factory with **[`@babel/plugin-transform-react-jsx`](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx)**.
+
+```jsx
+/** @jsx DiscordComponents.createComponent */
+/** @jsxFrag DiscordComponents.Fragment */
 ```
 
 # Components Available
@@ -170,3 +182,34 @@ client.on("messageCreate", (message) => {
 
 ### Preview
 ![](https://i.imgur.com/eaqub2x.png)
+
+## Other examples
+
+```tsx
+const componentData = (
+    <>
+        <MessageActionRow>
+            {Array.from({ length: 5 }, (_, i) => (
+                <MessageButton style="PRIMARY" label={`Button ${++i}`} customId={`btn_${i}`} />
+            ))}
+        </MessageActionRow>
+        <MessageActionRow>
+            <MessageSelectMenu customId="123">
+                {Array.from({ length: 5 }, (_, i) => (
+                    <MessageSelectOption description={`Option number ${++i}`} label={`Option ${i}`} value={i.toString()} />
+                ))}
+            </MessageSelectMenu>
+        </MessageActionRow>
+        <MessageEmbed color="BLURPLE" title="Counter">
+            <MessageEmbedFields>
+                {Array.from({ length: 10 }, (_, i) => {
+                  const counter = ++i;
+                  return <MessageEmbedField name={`Count ${counter}`} value={`Counting ${counter}`} />
+                })}
+            </MessageEmbedFields>
+        </MessageEmbed>
+    </>
+);
+
+return message.channel.send(componentData);
+```
