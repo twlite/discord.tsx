@@ -2,6 +2,8 @@
 
 Create Discord.js components in JSX.
 
+**[https://www.npmjs.com/package/discord.tsx](https://www.npmjs.com/package/discord.tsx)**
+
 # Setup
 
 ## Install discord.js
